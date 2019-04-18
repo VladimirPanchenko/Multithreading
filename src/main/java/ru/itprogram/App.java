@@ -1,18 +1,24 @@
 package ru.itprogram;
 
 
+import ru.itprogram.service.GeneratorThread;
+
 public class App {
+    private static final int NUMBER_OF_THREADS = 40;
+
     public static void main( String[] args ) {
         /* Вызов метода закоментирован так как вызывает deadlock
-        *  Для проверки на deadlock раскоментировать метод dead();*/
-//        dead(deadLockAccountOne, deadLockAccountTwo);
+        *  Для проверки на deadlock раскоментировать метод deadLock();*/
+//        deadLock();
 
-        unDead();
+        /*Метод так же работает с классом аккаунт, но не вызывает deadlock*/
+        unDeadLock();
 
-
+        /*Создание потоков и иметация работы с пулом ресурсов*/
+        GeneratorThread generatorThread = new GeneratorThread(NUMBER_OF_THREADS);
     }
 
-    public static void dead() {
+    public static void deadLock() {
         final ru.itprogram.deadlock.Account deadLockAccountOne = new  ru.itprogram.deadlock.Account(0, 10000);
         final ru.itprogram.deadlock.Account deadLockAccountTwo = new  ru.itprogram.deadlock.Account(1, 600);
         final int TRANSFER_AMOUNT_ONE = 500;
@@ -35,7 +41,7 @@ public class App {
         }).start();
     }
 
-    public static void unDead() {
+    public static void unDeadLock() {
         final ru.itprogram.undeadlock.Account undeadLockAccountOne = new ru.itprogram.undeadlock.Account(0, 10000);
         final ru.itprogram.undeadlock.Account undeadLockAccountTwo = new ru.itprogram.undeadlock.Account(1, 600);
         final int TRANSFER_AMOUNT_ONE = 500;
